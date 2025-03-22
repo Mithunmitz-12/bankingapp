@@ -3,8 +3,8 @@ package com.bank.bankingapp.repository;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import com.bank.bankingapp.entity.Customer;
+import com.bank.bankingapp.entity.Account;
 @Repository
-public interface CustomerRepository extends JpaRepository<Customer, Integer> {
+public interface AccountRepository extends JpaRepository<Account, Integer> {
 
 }
