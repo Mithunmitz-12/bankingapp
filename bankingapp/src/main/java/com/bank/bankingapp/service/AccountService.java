@@ -33,8 +33,7 @@ public class AccountService {
 			existingAccount.setAccountType(accountDetails.getAccountType());
 			existingAccount.setBalance(accountDetails.getBalance());
 			existingAccount.setCreatedAt(accountDetails.getCreatedAt());
-			existingAccount.setCustomerId(accountDetails.getCustomerId());
-			existingAccount.setLive(accountDetails.isLive());
+			//existingAccount.setCustomerId(accountDetails.getCustomerId());
 			return accRepository.save(existingAccount);
 		}
 		throw new NotFoundException("Department Not Found for Update" + id);

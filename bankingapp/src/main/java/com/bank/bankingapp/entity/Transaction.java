@@ -1,41 +1,45 @@
 package com.bank.bankingapp.entity;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import lombok.Data;
 
 @Entity
-@Data
 public class Transaction {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
-	private int accountId;
-	private String accountType; // deposit or withdrawal
-	private float amount;
-	private LocalDate transcationDate;
+	@ManyToOne
+	@JoinColumn(name = "account_id", nullable = false)
+	private Account account;
+	private String transactionType;
+	private Double amount;
+	private LocalDateTime transactionDate;
 	private String description;
-	private String status; // pending or completed
 
 	public Transaction() {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Transaction(int id, int accountId, String accountType, float amount, LocalDate transcationDate,
-			String description, String status) {
+	public Transaction(Account account, String transactionType, Double amount, LocalDateTime transactionDate,
+			String description) {
 		super();
-		this.id = id;
-		this.accountId = accountId;
-		this.accountType = accountType;
+		this.account = account;
+		this.transactionType = transactionType;
 		this.amount = amount;
-		this.transcationDate = transcationDate;
+		this.transactionDate = transactionDate;
 		this.description = description;
-		this.status = status;
 	}
+
+//	public Transaction(Account account2, String transactionType2, Double amount2, LocalDateTime now, Object object) {
+//		// TODO Auto-generated constructor stub
+//	}
 
 	public int getId() {
 		return id;
@@ -45,36 +49,36 @@ public class Transaction {
 		this.id = id;
 	}
 
-	public int getAccountId() {
-		return accountId;
+	public Account getAccount() {
+		return account;
 	}
 
-	public void setAccountId(int accountId) {
-		this.accountId = accountId;
+	public void setAccount(Account account) {
+		this.account = account;
 	}
 
-	public String getAccountType() {
-		return accountType;
+	public String getTransactionType() {
+		return transactionType;
 	}
 
-	public void setAccountType(String accountType) {
-		this.accountType = accountType;
+	public void setTransactionType(String transactionType) {
+		this.transactionType = transactionType;
 	}
 
-	public float getAmount() {
+	public Double getAmount() {
 		return amount;
 	}
 
-	public void setAmount(float amount) {
+	public void setAmount(Double amount) {
 		this.amount = amount;
 	}
 
-	public LocalDate getTranscationDate() {
-		return transcationDate;
+	public LocalDateTime getTransactionDate() {
+		return transactionDate;
 	}
 
-	public void setTranscationDate(LocalDate transcationDate) {
-		this.transcationDate = transcationDate;
+	public void setTransactionDate(LocalDateTime transactionDate) {
+		this.transactionDate = transactionDate;
 	}
 
 	public String getDescription() {
@@ -83,14 +87,6 @@ public class Transaction {
 
 	public void setDescription(String description) {
 		this.description = description;
-	}
-
-	public String getStatus() {
-		return status;
-	}
-
-	public void setStatus(String status) {
-		this.status = status;
 	}
 
 }

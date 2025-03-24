@@ -1,15 +1,21 @@
 package com.bank.bankingapp.entity;
 
 import java.time.LocalDate;
+import java.util.List;
 
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import lombok.Data;
 
-@Entity
 @Data
+@Entity
 public class Account {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -17,16 +23,21 @@ public class Account {
 	private int accountNumber;
 	private String accountType;
 	private Double balance;
+	@Column(name = "customer_id", insertable = false, updatable = false)
 	private int customerId; // Foreign key to customer
 	private LocalDate createdAt;
-	private boolean live; // Active or closed
+	@ManyToOne
+	@JoinColumn(name = "customer_id", insertable = false, updatable = false)
+	private Customer customer;
+
+	@OneToMany(mappedBy = "account", cascade = CascadeType.ALL)
+	private List<Transaction> transactions;
 
 	public Account() {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Account(int id, int accountNumber, String accountType, Double balance, int customerId, LocalDate createdAt,
-			boolean live) {
+	public Account(int id, int accountNumber, String accountType, Double balance, int customerId, LocalDate createdAt) {
 		super();
 		this.id = id;
 		this.accountNumber = accountNumber;
@@ -34,7 +45,6 @@ public class Account {
 		this.balance = balance;
 		this.customerId = customerId;
 		this.createdAt = createdAt;
-		this.live = live;
 	}
 
 	public int getId() {
@@ -83,14 +93,6 @@ public class Account {
 
 	public void setCreatedAt(LocalDate createdAt) {
 		this.createdAt = createdAt;
-	}
-
-	public boolean isLive() {
-		return live;
-	}
-
-	public void setLive(boolean live) {
-		this.live = live;
 	}
 
 }

@@ -15,18 +15,24 @@ public class User {
 	private String userName;
 	private String password; // hashed
 	private String role; // customer, admin
+	private String email;
 	private String customerId; // link to Customer
+
+	public enum Role {
+		ADMIN, EMPLOYEE, CUSTOMER
+	}
 
 	public User() {
 		// TODO Auto-generated constructor stub
 	}
 
-	public User(int id, String userName, String password, String role, String customerId) {
+	public User(int id, String userName, String password, String role, String email, String customerId) {
 		super();
 		this.id = id;
 		this.userName = userName;
 		this.password = password;
 		this.role = role;
+		this.email = email;
 		this.customerId = customerId;
 	}
 
@@ -60,6 +66,14 @@ public class User {
 
 	public void setRole(String role) {
 		this.role = role;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
 	}
 
 	public String getCustomerId() {
