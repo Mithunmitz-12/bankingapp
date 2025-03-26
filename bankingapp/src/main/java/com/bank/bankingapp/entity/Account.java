@@ -3,7 +3,6 @@ package com.bank.bankingapp.entity;
 import java.time.LocalDate;
 import java.util.List;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -30,7 +29,7 @@ public class Account {
 	@JoinColumn(name = "customer_id", insertable = false, updatable = false)
 	private Customer customer;
 
-	@OneToMany(mappedBy = "account", cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "account")
 	private List<Transaction> transactions;
 
 	public Account() {

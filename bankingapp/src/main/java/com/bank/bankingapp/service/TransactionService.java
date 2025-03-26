@@ -28,9 +28,9 @@ public class TransactionService {
 		return transaction.orElseThrow(() -> new RuntimeException("Transaction not found with ID: " + transactionId));
 	}
 
-//	public List<Transaction> getTransactionsByAccountId(int accountId) {
-//		return transactionRepository.findByAccount_AccountId(accountId);
-//	}
+	public List<Transaction> getTransactionsByAccountId(int accountId) {
+		return transactionRepository.findByAccount_Id(accountId);
+	}
 
 	public Transaction createTransaction(Transaction transaction) {
 		transaction.setTransactionDate(LocalDateTime.now()); // Set current timestamp

@@ -31,11 +31,11 @@ public class TransactionController {
 		return new ResponseEntity<Transaction>(transactionService.getTransactionById(transactionId), HttpStatus.OK);
 	}
 
-//	@GetMapping("/account/{accountId}")
-//	public ResponseEntity<List<Transaction>> getTransactionsByAccountId(@PathVariable int accountId) {
-//		return new ResponseEntity<List<Transaction>>(transactionService.getTransactionsByAccountId(accountId),
-//				HttpStatus.OK);
-//	}
+	@GetMapping("/account/{accountId}")
+	public ResponseEntity<List<Transaction>> getTransactionsByAccountId(@PathVariable int accountId) {
+		return new ResponseEntity<List<Transaction>>(transactionService.getTransactionsByAccountId(accountId),
+				HttpStatus.OK);
+	}
 
 	@PostMapping("/deposit")
 	public ResponseEntity<Transaction> deposit(@RequestParam int accountId, @RequestParam Double amount,

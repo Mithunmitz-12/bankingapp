@@ -28,13 +28,13 @@ public class UserService {
 		return user.orElseThrow(() -> new RuntimeException("User not found with ID: " + userId));
 	}
 
-//	public User getUserByUsername(String username) {
-//		User user = userRepository.findByUsername(username);
-//		if (user == null) {
-//			throw new RuntimeException("User not found with username: " + username);
-//		}
-//		return user;
-//	}
+	public User getUserByUsername(String username) {
+		User user = userRepository.findByUserName(username);
+		if (user == null) {
+			throw new RuntimeException("User not found with username: " + username);
+		}
+		return user;
+	}
 
 	public User createUser(User user) {
 		// Hash the password before saving
