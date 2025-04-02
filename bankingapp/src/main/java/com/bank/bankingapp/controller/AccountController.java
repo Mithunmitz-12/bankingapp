@@ -16,13 +16,18 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bank.bankingapp.entity.Account;
+import com.bank.bankingapp.entity.Customer;
 import com.bank.bankingapp.service.AccountService;
+import com.bank.bankingapp.service.CustomerService;
 
 @RestController
 @RequestMapping("/account")
 public class AccountController {
 	@Autowired
 	private AccountService accService;
+
+	@Autowired
+	private CustomerService cusService;
 
 	@GetMapping("/all")
 	public ResponseEntity<List<Account>> getAllAcc() {
@@ -34,14 +39,35 @@ public class AccountController {
 		return new ResponseEntity<Account>(accService.getAccountById(id), HttpStatus.OK);
 	}
 
+//	@PostMapping
+//	public ResponseEntity<Account> createAccount(@RequestBody Account account) {
+//		// Fetch the customer based on the customerId
+//		Customer customer = cusService.getById(account.getCustomer().getId());
+//		account.setCustomer(customer);
+//		System.out.println(customer.getId());
+//		// Now save the account
+//		Account createdAccount = accService.saveAccount(account);
+//
+//		return new ResponseEntity<Account>(createdAccount, HttpStatus.OK);
+//	}
 	@PostMapping
 	public ResponseEntity<Account> createAccount(@RequestBody Account account) {
-		return new ResponseEntity<Account>(accService.saveAccount(account), HttpStatus.CREATED);
+		if (account.getCustomer() == null || account.getCustomer().getId() == null) {
+			throw new IllegalArgumentException("Customer or Customer ID is missing in the request.");
+		}
+
+		Customer customer = cusService.getById(account.getCustomer().getId());
+		account.setCustomer(customer);
+
+		Account createdAccount = accService.saveAccount(account);
+		return new ResponseEntity<>(createdAccount, HttpStatus.OK);
 	}
+
+
 
 	@PutMapping("/{id}")
 	public ResponseEntity<Account> updateAccount(@PathVariable int id, @RequestBody Account accountDetails) {
-		return new ResponseEntity<Account>(accService.updateAccount(id,accountDetails), HttpStatus.OK);
+		return new ResponseEntity<Account>(accService.updateAccount(id, accountDetails), HttpStatus.OK);
 	}
 
 	@DeleteMapping("/{id}")
@@ -54,6 +80,12 @@ public class AccountController {
 	public ResponseEntity<Account> deposit(@RequestParam Integer accountId, Double amount) {
 		return new ResponseEntity<Account>(accService.deposit(accountId, amount), HttpStatus.CREATED);
 	}
+//	@PostMapping("/deposit")
+//	public ResponseEntity<Transaction> deposit(@RequestParam int accountId, @RequestParam Double amount,
+//	                                           @RequestParam(required = false) String description) {
+//	    return new ResponseEntity<Transaction>(transactionService.deposit(accountId, amount, description),
+//	            HttpStatus.CREATED);
+//	}
 
 	@PostMapping("/withdraw")
 	public ResponseEntity<Account> withdraw(@RequestParam int accountId, @RequestParam Double amount) {

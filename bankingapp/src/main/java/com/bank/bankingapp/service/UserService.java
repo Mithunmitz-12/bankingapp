@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.bank.bankingapp.entity.User;
@@ -15,9 +14,8 @@ public class UserService {
 	@Autowired
 	private UserRepository userRepository;
 
-	@Autowired
-	private PasswordEncoder passwordEncoder; // For hashing passwords (e.g., BCrypt)
-	
+//	@Autowired
+//	private PasswordEncoder passwordEncoder; // For hashing passwords (e.g., BCrypt)
 
 	public List<User> getAllUsers() {
 		return userRepository.findAll();
@@ -38,7 +36,7 @@ public class UserService {
 
 	public User createUser(User user) {
 		// Hash the password before saving
-		user.setPassword(passwordEncoder.encode(user.getPassword()));
+		// user.setPassword(passwordEncoder.encode(user.getPassword()));
 		return userRepository.save(user);
 	}
 
@@ -46,7 +44,7 @@ public class UserService {
 		User user = getUserById(userId);
 		user.setUserName(userDetails.getUserName());
 		if (userDetails.getPassword() != null && !userDetails.getPassword().isEmpty()) {
-			user.setPassword(passwordEncoder.encode(userDetails.getPassword()));
+			user.setPassword((userDetails.getPassword()));
 		}
 		user.setRole(userDetails.getRole());
 		user.setEmail(userDetails.getEmail());
@@ -65,6 +63,5 @@ public class UserService {
 //		}
 //		throw new RuntimeException("Invalid username or password");
 //	}
-
 
 }

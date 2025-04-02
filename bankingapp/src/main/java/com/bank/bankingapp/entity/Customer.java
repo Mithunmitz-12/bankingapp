@@ -12,19 +12,22 @@ import jakarta.persistence.Id;
 public class Customer {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int id;
+	private Integer id;
 	private String name;
 	private String phoneNo;
 	@Column(unique = true)
 	private String email;
 	private String address;
 	private LocalDate dob;
+//	@OneToOne(fetch = FetchType.EAGER)
+//	@JoinColumn(name = "account_id", insertable = false, updatable = false)
+//	private Account account;
 
 	public Customer() {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Customer(int id, String name, String phoneNo, String email, String address, LocalDate dob) {
+	public Customer(Integer id, String name, String phoneNo, String email, String address, LocalDate dob) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -34,11 +37,11 @@ public class Customer {
 		this.dob = dob;
 	}
 
-	public int getId() {
+	public Integer getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 
@@ -81,5 +84,4 @@ public class Customer {
 	public void setDob(LocalDate dob) {
 		this.dob = dob;
 	}
-
 }

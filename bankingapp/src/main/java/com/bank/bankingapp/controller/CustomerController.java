@@ -28,19 +28,29 @@ public class CustomerController {
 	public ResponseEntity<Customer> getById(@PathVariable int id) {
 		return new ResponseEntity<Customer>(cusService.getById(id), HttpStatus.OK);
 	}
-	
+
 	@GetMapping("/all")
-	public  ResponseEntity<List<Customer>>  getAllCus(){
-		return (ResponseEntity<List<Customer>>) new ResponseEntity<List<Customer>>(cusService.getAllCus(), HttpStatus.OK);
+	public ResponseEntity<List<Customer>> getAllCus() {
+		return (ResponseEntity<List<Customer>>) new ResponseEntity<List<Customer>>(cusService.getAllCus(),
+				HttpStatus.OK);
 	}
 
 	@PostMapping
 	public ResponseEntity<Customer> createCustomer(@RequestBody Customer customer) {
 		return new ResponseEntity<Customer>(cusService.createCustomer(customer), HttpStatus.CREATED);
 	}
+//	@PostMapping
+//	public ResponseEntity<?> createCustomer(@RequestBody Customer customer) {
+//	    try {
+//	        return new ResponseEntity<>(cusService.createCustomer(customer), HttpStatus.CREATED);
+//	    } catch (DataIntegrityViolationException e) {
+//	        return new ResponseEntity<>("Data Integrity Violation: " + e.getMessage(), HttpStatus.BAD_REQUEST);
+//	    }
+//	}
 
 	@PutMapping("/{id}")
-	public ResponseEntity<Customer> updateCustomer(@PathVariable int id, @RequestBody Customer customerDetails) throws NotFoundException {
+	public ResponseEntity<Customer> updateCustomer(@PathVariable int id, @RequestBody Customer customerDetails)
+			throws NotFoundException {
 		return new ResponseEntity<Customer>(cusService.updateCustomer(id, customerDetails), HttpStatus.OK);
 	}
 

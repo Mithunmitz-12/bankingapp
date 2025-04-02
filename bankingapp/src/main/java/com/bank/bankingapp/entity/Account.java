@@ -3,14 +3,15 @@ package com.bank.bankingapp.entity;
 import java.time.LocalDate;
 import java.util.List;
 
-import jakarta.persistence.Column;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import lombok.Data;
 
 @Data
@@ -22,28 +23,29 @@ public class Account {
 	private int accountNumber;
 	private String accountType;
 	private Double balance;
-	@Column(name = "customer_id", insertable = false, updatable = false)
-	private int customerId; // Foreign key to customer
 	private LocalDate createdAt;
-	@ManyToOne
-	@JoinColumn(name = "customer_id", insertable = false, updatable = false)
+	@OneToOne(fetch = FetchType.EAGER)
+//	@JoinColumn(name = "customer_id", insertable = false, updatable = false)
+	@JoinColumn(name = "customer_id", nullable = false)
 	private Customer customer;
 
-	@OneToMany(mappedBy = "account")
+	@OneToMany(mappedBy = "account", cascade = CascadeType.ALL)
 	private List<Transaction> transactions;
 
 	public Account() {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Account(int id, int accountNumber, String accountType, Double balance, int customerId, LocalDate createdAt) {
+	public Account(int id, int accountNumber, String accountType, Double balance, LocalDate createdAt,
+			Customer customer, List<Transaction> transactions) {
 		super();
 		this.id = id;
 		this.accountNumber = accountNumber;
 		this.accountType = accountType;
 		this.balance = balance;
-		this.customerId = customerId;
 		this.createdAt = createdAt;
+		this.customer = customer;
+		this.transactions = transactions;
 	}
 
 	public int getId() {
@@ -78,14 +80,6 @@ public class Account {
 		this.balance = balance;
 	}
 
-	public int getCustomerId() {
-		return customerId;
-	}
-
-	public void setCustomerId(int customerId) {
-		this.customerId = customerId;
-	}
-
 	public LocalDate getCreatedAt() {
 		return createdAt;
 	}
@@ -94,4 +88,19 @@ public class Account {
 		this.createdAt = createdAt;
 	}
 
+	public Customer getCustomer() {
+		return customer;
+	}
+
+	public void setCustomer(Customer customer) {
+		this.customer = customer;
+	}
+
+	public List<Transaction> getTransactions() {
+		return transactions;
+	}
+
+	public void setTransactions(List<Transaction> transactions) {
+		this.transactions = transactions;
+	}
 }
